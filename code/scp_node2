@@ -1,0 +1,9 @@
+#################
+# REMOTE -> LOCAL
+#################
+#scp -r -i "../connection/GethNode.pem" ubuntu@18.216.169.184:/home/ubuntu/Truffle/Carfax/build /Users/zshirwan/Projects/BC/AWS/code/Truffle/Carfax
+
+#################
+# LOCAL -> REMOTE
+#################
+scp -r -i "../connection/GethNode.pem" /Users/zshirwan/Projects/BC/AWS/code/Truffle/Carfax ubuntu@18.216.169.184:/home/ubuntu/Truffle

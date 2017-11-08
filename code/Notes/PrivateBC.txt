@@ -1,0 +1,63 @@
+########################
+# VOTING: 2 GETH, 2 NODE
+########################
+
+#################################
+# CREATE NEW BC WITH genesis.json
+#################################
+geth init Genesis.json
+geth --nodiscover console 2>> /dev/null
+
+#####################
+# NODE 1 GETH CONSOLE
+#####################
+// Make sure to do the following in geth console:
+    admin.startRPC()
+    personal.unlockAccount(eth.coinbase, '')
+    miner.start()
+
+########################
+# NODE 1 node.js console
+########################
+Web3 = require('web3')
+web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+code = fs.readFileSync('Voting.sol').toString()
+solc = require('solc')
+compiledCode = solc.compile(code)
+contractDefinition = web3.eth.contract(JSON.parse(compiledCode.contracts[':Voting'].interface))
+deployedContract = contractDefinition.new(['Rama','Nick','Jose'],{data: '0x' + compiledCode.contracts[':Voting'].bytecode, from: web3.eth.accounts[0], gas: 4700000})
+
+// Check if deployed
+deployedContract = contractDefinition.at(deployedContract.address)
+
+// Save these for the other nodes
+JSON.stringify(deployedContract.abi)
+deployedContract.address
+
+#####################
+# NODE 2 GETH CONSOLE
+#####################
+// Make sure node is peered with Node 1, then do:
+    admin.addPeer("enode://1c064d9bb7f9942dee2736e3265218bf1a3a1888f56d374e11774e76405755063783fe574396d609da6e6e17d1a1b6950cf70803fd4f4fe63bcc781b39544094@172.31.13.255:30303?discport=0")
+    admin.startRPC()
+    personal.unlockAccount(eth.coinbase, '')
+
+########################
+# NODE 1 node.js console
+########################
+Web3 = require('web3')
+web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+contractDefinition = web3.eth.contract(JSON.parse(<JSON.stringify(deployedContract.abi) from Node 1>))
+deployedContract = contractDefinition.at(<deployedContract.address from Node 1>)
+//EXAMPLE:
+contractDefinition = web3.eth.contract(JSON.parse('[{"constant":false,"inputs":[{"name":"candidate","type":"bytes32"}],"name":"totalVotesFor","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"candidate","type":"bytes32"}],"name":"validCandidate","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"bytes32"}],"name":"votesReceived","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"candidateList","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"candidate","type":"bytes32"}],"name":"voteForCandidate","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"candidateNames","type":"bytes32[]"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]'))
+deployedContract = contractDefinition.at('0x831b42064990ff61df29e2573f50a1197fc91271')
+
+
+###########################
+# ALL NODES node.js console
+###########################
+deployedContract.totalVotesFor.call('Rama').toString()
+deployedContract.voteForCandidate('Rama', {from: web3.eth.accounts[0]})
+deployedContract.totalVotesFor.call('Rama').toString()
+

@@ -1,0 +1,111 @@
+{
+  "contract_name": "Voting",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "candidate",
+          "type": "bytes32"
+        }
+      ],
+      "name": "totalVotesFor",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "candidate",
+          "type": "bytes32"
+        }
+      ],
+      "name": "validCandidate",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "votesReceived",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "candidateList",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "candidate",
+          "type": "bytes32"
+        }
+      ],
+      "name": "voteForCandidate",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "candidateNames",
+          "type": "bytes32[]"
+        }
+      ],
+      "payable": false,
+      "type": "constructor"
+    }
+  ],
+  "unlinked_binary": "0x606060405234610000576040516102c93803806102c9833981016040528051015b805160018054828255600082905290917fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf691820191602085018215610083579160200282015b828111156100835782518255602090920191600190910190610066565b5b506100a49291505b808211156100a0576000815560010161008c565b5090565b50505b505b610211806100b86000396000f300606060405263ffffffff60e060020a6000350416632f265cf78114610050578063392e6678146100765780637021939f1461009a578063b13c744b146100c0578063cc9ab267146100e2575b610000565b34610000576100606004356100f4565b6040805160ff9092168252519081900360200190f35b3461000057610086600435610123565b604080519115158252519081900360200190f35b3461000057610060600435610175565b6040805160ff9092168252519081900360200190f35b34610000576100d060043561018a565b60408051918252519081900360200190f35b34610000576100f26004356101ab565b005b60006100ff82610123565b151561010a57610000565b5060008181526020819052604090205460ff165b919050565b6000805b60015481101561016a578260001916600182815481101561000057906000526020600020900160005b50541415610161576001915061016f565b5b600101610127565b600091505b50919050565b60006020819052908152604090205460ff1681565b600181815481101561000057906000526020600020900160005b5054905081565b6101b481610123565b15156101bf57610000565b6000818152602081905260409020805460ff8082166001011660ff199091161790555b505600a165627a7a72305820223d89e64d343a0336b584ece8368dc03df8fdbb23efd034ded115906a68ea3c0029",
+  "networks": {
+    "3": {
+      "events": {},
+      "links": {},
+      "address": "0xe0392bb02d625b8ef46d61177d3ffd0bca6539a0",
+      "updated_at": 1509724657258
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1509724657258
+}

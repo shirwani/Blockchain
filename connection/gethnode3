@@ -1,0 +1,1 @@
+ssh -i "GethNode.pem" ubuntu@18.220.28.31

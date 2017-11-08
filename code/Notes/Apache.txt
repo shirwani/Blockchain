@@ -1,0 +1,13 @@
+sudo apt-get update
+sudo apt-get install apache2
+sudo apache2ctl configtest
+sudo sh -c 'echo "ServerName 18.221.198.247" >> /etc/apache2/apache2.conf'
+sudo apache2ctl configtest
+sudo systemctl restart apache2
+sudo ufw app list
+sudo ufw app info "Apache Full"
+sudo ufw allow in "Apache Full"
+
+# SCP/FTP dapp files
+sudo mkdir -p ~/dapps/Voting
+#sudo cp -R ~/dapps/Voting /var/www/html

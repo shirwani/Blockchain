@@ -1,0 +1,9 @@
+#################
+# REMOTE -> LOCAL
+#################
+#scp -r -i "../connection/GethNode.pem" ubuntu@18.220.207.240:/home/ubuntu/Truffle/Voting /Users/zshirwan/Projects/BC/AWS/code/Truffle
+
+#################
+# LOCAL -> REMOTE
+#################
+scp -r -i "../connection/GethNode.pem" /Users/zshirwan/Projects/BC/AWS/code/Truffle/Voting/build/* ubuntu@18.221.44.239:/var/www/html/Voting

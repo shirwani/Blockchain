@@ -1,0 +1,70 @@
+#########################################
+# 2 GETH CONSOLES AND TWO NODEJS CONSOLES
+#########################################
+
+###############################################################
+# CREATE NEW ACCOUNT AND USE THE ACCOUNT NUMBER IN GENESIS.JSON
+###############################################################
+geth account new
+
+#########################################
+# INITIALIZE BLOCKCHAIN FROM GENESIS FILE
+#########################################
+geth init Genesis.json
+
+########################################################
+# LAUNCH GETH CONSOLE, RUN A SCRIPT AND VIEW RUNNING LOG
+########################################################
+geth --nodiscover console 2>> /dev/null
+geth --nodiscover js myscript.js 2>> eth.log
+tail -F eth.log
+
+################################################
+GET ENODE AND PEER WITH NODE 1 OR 2 RESPECTIVELY
+################################################
+admin.nodeInfo.enode
+admin.addPeer("enode://1c064d9bb7f9942dee2736e3265218bf1a3a1888f56d374e11774e76405755063783fe574396d609da6e6e17d1a1b6950cf70803fd4f4fe63bcc781b39544094@172.31.13.255:30303?discport=0")
+admin.addPeer("enode://6600004000ac6b573597520dc04c8dc3bdaf96da1460ebf0bc59b56cae11a2e062dbe6718f844064362af019213632cf4cabac6c40a1ad92fe5876862a18ec16@172.31.15.10:30303?discport=0")
+admin.peers
+
+###############################################
+# CREATE A NEW ACCOUNT AND GET COINBASE ADDRESS
+###############################################
+#personal.newAccount()
+web3.fromWei(eth.getBalance(eth.coinbase), "ether")
+
+#################################################
+# START/STOP MINER AND CHECK PENDING TRANSACTIONS
+# Known issue: In a private networs, Tx's won't be transmitted to new nodes, unless there are a couple of mining nodes.
+#################################################
+miner.start()
+miner.stop()
+eth.pendingTransactions
+
+##########################################
+# SEND 1 ETHER TO NODE 1 OR 2 RESPECTIVELY
+##########################################
+personal.unlockAccount(eth.coinbase, '')
+eth.sendTransaction({from: eth.coinbase, to: "0x70adb219e0d81449f5d492a4d958ab2ab204b86d", value: web3.toWei(1, "ether")})
+
+personal.unlockAccount(eth.coinbase, '')
+eth.sendTransaction({from: eth.coinbase, to: "0x9f883917b72966a18519435c8d9bd465c087790d", value: web3.toWei(1, "ether")})
+
+###################################
+# INSTALL NODE AND WEB3 ON THE NODE
+###################################
+sudo apt-get install python-software-properties
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -eth
+
+sudo apt-get install nodejs
+npm install web3@^0.20.0
+
+###################################################
+# ACCESSING BLOCKCHAIN THROUGH WEB3 IN NODE CONSOLE
+###################################################
+In geth:
+admin.startRPC()
+
+In node:
+Web3 = require('web3');
+var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"))
