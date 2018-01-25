@@ -1,0 +1,2 @@
+ip=`cat ./node-ip.txt`
+ssh -i "../GethNode.pem" ubuntu@$ip

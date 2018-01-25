@@ -1,0 +1,35 @@
+ip=`cat ./node-ip.txt`
+
+#############################
+# INSERT APPROPRIATE PROVIDER
+#############################
+echo -e "window.web3 = new Web3(new Web3.providers.HttpProvider(\"http://$ip:8545\"));\n$(cat ../../app/javascripts/app.js)" > ../../app/javascripts/app.js
+
+############################
+# PUT FILES ON REMOTE SERVER
+############################
+scp -r -i ".././GethNode.pem" ../../app 		ubuntu@$ip:/home/ubuntu/dapps/Carfax
+scp -r -i ".././GethNode.pem" ../../contracts 	ubuntu@$ip:/home/ubuntu/dapps/Carfax
+scp -r -i ".././GethNode.pem" ../../migrations 	ubuntu@$ip:/home/ubuntu/dapps/Carfax
+scp -r -i ".././GethNode.pem" ../../*.* 		ubuntu@$ip:/home/ubuntu/dapps/Carfax
+
+##################################################
+# RESTORE ORIGINAL FILE BY REMOVING THE FIRST LINE
+##################################################
+perl -ni -e 'print unless $. == 1' ../../app/javascripts/app.js
+
+############################
+# RUN BUILD ON REMOTE SERVER
+############################
+ssh -i ".././GethNode.pem" ubuntu@$ip 'cd ~/dapps/Carfax; truffle migrate --reset; npm run build;'
+#ssh -i ".././GethNode.pem" ubuntu@$ip 'cd ~/dapps/Carfax; npm run build;'
+
+###############################
+# COPY FILES FROM REMOTE SERVER
+###############################
+rm -rf /Library/WebServer/Documents/dapps/Carfax
+mkdir -p /Library/WebServer/Documents/dapps/Carfax
+scp -r -i ".././GethNode.pem" ubuntu@$ip:/home/ubuntu/dapps/Carfax/build/* /Library/WebServer/Documents/dapps/Carfax
+
+
+# http://localhost/dapps/Carfax

@@ -1,0 +1,33 @@
+ip=`cat ./node-ip.txt`
+
+# truffle console
+#  web3.eth.getBalance(web3.eth.accounts[0]).toString()
+#  web3.personal.unlockAccount(web3.eth.accounts[0], 'dingydingy123', 15000)
+
+############################
+# PUT FILES ON REMOTE SERVER
+############################
+#scp -r -i "../GethNode.pem" ../../app 			ubuntu@$ip:/home/ubuntu/dapps/TokenCarfax
+#scp -r -i "../GethNode.pem" ../../contracts 	ubuntu@$ip:/home/ubuntu/dapps/TokenCarfax
+#scp -r -i "../GethNode.pem" ../../migrations 	ubuntu@$ip:/home/ubuntu/dapps/TokenCarfax
+#scp -r -i "../GethNode.pem" ../../*.* 			ubuntu@$ip:/home/ubuntu/dapps/TokenCarfax
+#scp -r -i "../GethNode.pem" ./apache			ubuntu@$ip:/home/ubuntu/dapps/TokenCarfax
+
+############################
+# RUN BUILD ON REMOTE SERVER
+############################
+#ssh -i "../GethNode.pem" ubuntu@$ip 'cd ~/dapps/TokenCarfax; truffle migrate --reset; npm run build; chmod +x ./apache; ./apache;'
+#ssh -i "../GethNode.pem" ubuntu@$ip 'cd ~/dapps/TokenCarfax; npm run build; chmod +x ./apache; ./apache;'
+
+
+# http://<node-ip>/TokenCarfax
+# scp -r -i "./GethNode.pem" ubuntu@18.218.38.90:/var/www/html/TokenCarfax tmp
+# scp -r -i  "../GethNode.pem" TokenCarfax ubuntu@18.217.183.104:/var/www/html/TokenCarfax
+
+###############################
+# COPY FILES FROM REMOTE SERVER
+###############################
+rm -rf /Library/WebServer/Documents/dapps/TokenCarfax
+mkdir -p /Library/WebServer/Documents/dapps/TokenCarfax
+scp -r -i ".././GethNode.pem" ubuntu@$ip:/home/ubuntu/dapps/TokenCarfax/build/* /Library/WebServer/Documents/dapps/TokenCarfax
+

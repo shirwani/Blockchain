@@ -1,0 +1,47 @@
+Eutil = require('ethereumjs-util');
+p1 = web3.eth.accounts[1]
+p2 = web3.eth.accounts[2]
+amt = web3.toWei(1, 'ether');
+current_time = Math.round(new Date() / 1000);
+
+EcommerceStore.deployed().then(function(i) {i.addProductToStore('iphone 6', 'Cell Phones & Accessories', 'QmStqeYPDCTbgKGUwns2nZixC5dBDactoCe1FB8htpmrt1', 'desclink', current_time, current_time + 200, amt, 0).then(function(f) {console.log(f)})});
+EcommerceStore.deployed().then(function(i) {i.getProduct.call(1).then(function(f) {console.log(f)})})
+
+sealedBid = '0x' + Eutil.sha3((2 * amt) + 'mysecretacc1').toString('hex');
+EcommerceStore.deployed().then(function(i) {i.bid(1, sealedBid, {value: 3*amt, from: p1}).then(function(f) {console.log(f)})});
+sealedBid = '0x' + Eutil.sha3((3 * amt) + 'mysecretacc2').toString('hex');
+EcommerceStore.deployed().then(function(i) {i.bid(1, sealedBid, {value: 4*amt, from: p2}).then(function(f) {console.log(f)})});
+
+web3.eth.getBalance(p1)
+web3.eth.getBalance(p2)
+
+EcommerceStore.deployed().then(function(i) {i.revealBid(1, (2*amt).toString(), 'mysecretacc1', {from: p1}).then(function(f) {console.log(f)})})
+EcommerceStore.deployed().then(function(i) {i.revealBid(1, (3*amt).toString(), 'mysecretacc2', {from: p2}).then(function(f) {console.log(f)})})
+EcommerceStore.deployed().then(function(i) {i.highestBidderInfo.call(1).then(function(f) {console.log(f)})})
+
+
+#truffle init webpack
+#rm -f contracts/MetaCoin.sol contracts/ConvertLib.sol
+#EcommerceStore.deployed().then(function(f) {console.log(f)});
+
+
+##########
+# TO START
+##########
+# Update ip-address in app.js
+# Setup new node
+  mkdir -p dapps/ebay
+  cd dapps/ebay
+  testrpc&
+  truffle init webpack
+  rm -f contracts/MetaCoin.sol contracts/ConvertLib.sol
+# scp files
+  sudo npm install # install packages in package.json
+  truffle migrate --reset
+  truffle exec app/javascripts/seed.js
+  ./doit
+		npm run build
+		sudo rm -rf /var/www/html/ebay
+		sudo mkdir -p /var/www/html/ebay
+		sudo cp -R ~/dapps/ebay/build/* /var/www/html/ebay
+

@@ -1,0 +1,8 @@
+ip=`cat ./node-ip.txt`
+
+
+#################
+# CREATE NEW DAPP
+#################
+ssh -i "../GethNode.pem" ubuntu@$ip 'mkdir -p ~/dapps/TokenVoting; cd ~/dapps/TokenVoting; truffle init webpack; rm -f contracts/MetaCoin.sol contracts/ConvertLib.sol;'
+

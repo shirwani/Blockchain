@@ -1,0 +1,32 @@
+ip=`cat ./node-ip.txt`
+
+# Update ropsten network on node
+# Unlock account in truffle console on node
+# Update truffle.js to specify unlocked account for gas
+
+############################
+# PUT FILES ON REMOTE SERVER
+############################
+scp -r -i "../GethNode.pem" ../../app 			ubuntu@$ip:/home/ubuntu/dapps/TokenTest
+scp -r -i "../GethNode.pem" ../../contracts 	ubuntu@$ip:/home/ubuntu/dapps/TokenTest
+scp -r -i "../GethNode.pem" ../../migrations 	ubuntu@$ip:/home/ubuntu/dapps/TokenTest
+scp -r -i "../GethNode.pem" ../../*.* 			ubuntu@$ip:/home/ubuntu/dapps/TokenTest
+scp -r -i "../GethNode.pem" ./apache			ubuntu@$ip:/home/ubuntu/dapps/TokenTest
+
+############################
+# RUN BUILD ON REMOTE SERVER
+############################
+ssh -i "../GethNode.pem" ubuntu@$ip 'cd ~/dapps/TokenTest; truffle migrate --reset; npm run build; chmod +x ./apache; ./apache;'
+#ssh -i "../GethNode.pem" ubuntu@$ip 'cd ~/dapps/TokenTest; npm run build; chmod +x ./apache; ./apache;'
+
+
+# http://<node-ip>/TokenTest
+
+
+###############################
+# COPY FILES FROM REMOTE SERVER
+###############################
+rm -rf /Library/WebServer/Documents/dapps/TokenTest
+mkdir -p /Library/WebServer/Documents/dapps/TokenTest
+scp -r -i ".././GethNode.pem" ubuntu@$ip:/home/ubuntu/dapps/TokenTest/build/* /Library/WebServer/Documents/dapps/TokenTest
+

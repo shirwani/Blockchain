@@ -1,0 +1,25 @@
+############
+# SETUP IPFS
+############
+wget https://dist.ipfs.io/go-ipfs/v0.4.11/go-ipfs_v0.4.11_linux-amd64.tar.gz
+tar xzvf go-ipfs_v0.4.11_linux-amd64.tar.gz
+cd go-ipfs
+./ipfs init
+./ipfs daemon & # starts server and starts listening on port 5001
+/usr/local/bin/ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST", "OPTIONS"]'
+/usr/local/bin/ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]'
+/usr/local/bin/ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '["true"]'
+
+
+/usr/local/bin/ipfs config show
+/usr/local/bin/ipfs cat /ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme
+
+
+######################
+# ADDING FILES TO IPFS
+######################
+# ./ipfs add iphone.png
+		# added QmStqeYPDCTbgKGUwns2nZixC5dBDactoCe1FB8htpmrt1 iphone.png
+# ./ipfs add description.html
+		# added QmbLRFj5U6UGTy3o9Zt8jEnVDuAw2GKzvrrv3RED9wyGRk description.html
+

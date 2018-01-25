@@ -1,0 +1,19 @@
+ip=`cat ./node-ip.txt`
+
+############################
+# PUT FILES ON REMOTE SERVER
+############################
+scp -r -i "../GethNode.pem" ../../app 			ubuntu@$ip:/home/ubuntu/dapps/TokenVoting
+scp -r -i "../GethNode.pem" ../../contracts 	ubuntu@$ip:/home/ubuntu/dapps/TokenVoting
+scp -r -i "../GethNode.pem" ../../migrations 	ubuntu@$ip:/home/ubuntu/dapps/TokenVoting
+scp -r -i "../GethNode.pem" ../../*.* 			ubuntu@$ip:/home/ubuntu/dapps/TokenVoting
+scp -r -i "../GethNode.pem" ./apache			ubuntu@$ip:/home/ubuntu/dapps/TokenVoting
+
+############################
+# RUN BUILD ON REMOTE SERVER
+############################
+ssh -i "../GethNode.pem" ubuntu@$ip 'cd ~/dapps/TokenVoting; truffle migrate --reset; npm run build; chmod +x ./apache; ./apache;'
+#ssh -i "../GethNode.pem" ubuntu@$ip 'cd ~/dapps/TokenVoting; npm run build; chmod +x ./apache; ./apache;'
+
+
+# http://<node-ip>/TokenVoting

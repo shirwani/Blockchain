@@ -1,0 +1,61 @@
+###########################################
+# BUILDING AND DEPLOYING ON ROPSTEN TESTNET
+###########################################
+geth --testnet --syncmode "fast" --rpc --rpcapi db,eth,net,web3,personal --cache=1024  --rpcport 8545 --rpcaddr 127.0.0.1 --rpccorsdomain "*" --bootnodes "enode://20c9ad97c081d63397d7b685a412227a40e23c8bdc6688c6f37e97cfbc22d2b4d1db1510d8f61e6a8866ad7f0e17c02b14182d37ea7c3c8b9c2683aeb6b733a1@52.169.14.227:30303,enode://6ce05930c72abc632c58e2e4324f7c7ea478cec0ed4fa2528982cf34483094e9cbc9216e7aa349691242576d552a2a56aaeae426c5303ded677ce455ba1acd9d@13.84.180.240:30303"
+
+##################################
+# CREATE NEW PROJECT FROM TEMPLATE
+##################################
+truffle init webpack
+rm -f contracts/MetaCoin.sol contracts/ConvertLib.sol
+
+######################################################
+# IMPORTANT: CREATE ETHERS BEFORE DEPLOYING TO TESTNET
+######################################################
+truffle console
+# IN THE TRUFFLE CONSOLE
+web3.personal.newAccount('')
+web3.eth.getBalance('0x0e077d1c5aa68d643f3272c1a2718ff6f3437b39').toString()
+web3.personal.unlockAccount('0x0e077d1c5aa68d643f3272c1a2718ff6f3437b39', '')
+
+# GET TEST ETHERS FROM:
+## https://ethtools.com/ropsten/tools/faucet/
+## http://ipfs.b9lab.com:8080/ipfs/QmTHdYEYiJPmbkcth3mQvEQQgEamFypLhc9zapsBatQW7Y/throttled_faucet.html
+
+##########################################
+# ADJUST truffle.js to add account and gas
+##########################################
+require('babel-register')
+module.exports = {
+    networks: {
+        development: {
+            gas: 1000000,
+            from: '0xe9d90b7a2c5d49d0f85a2a73246274f1a8a625a6', // unlocked account
+            host: 'localhost',
+            port: 8545,
+            network_id: '*' // Match any network id
+        }
+    }
+}
+
+######################
+# START THE WEB SERVER
+######################
+npm run build
+truffle serve
+
+###############################
+# ACCESS DAPP FROM ANOTHER NODE
+###############################
+# Copy build folder from build node to destintion's webserver directory
+# Access at http://<destination address>
+
+#############################################
+# INTERACT WITH CONTRACT FROM TRUFFLE CONSOLE
+#############################################
+Carfax.deployed().then(function(c){console.log(c.address)})
+Carfax.deployed().then(function(c){c.get_cars_list.call().then(function(l){console.log(l)})})
+Carfax.deployed().then(function(c){c.add_car('GJHGHHJKJHIU','Honda','Accord',2008,'http://image.com',{from: web3.eth.accounts[4], gas: 440000}).then(function(l){console.log(l)})})
+Carfax.deployed().then(function(c){c.add_car('XXXHHIHUGTDQ','Acura','TLX',2008,'http://image.com',{from: web3.eth.accounts[4], gas: 440000}).then(function(l){console.log(l)})})
+Carfax.deployed().then(function(c){c.get_cars_list.call().then(function(l){console.log(l)})})
+

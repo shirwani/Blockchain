@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script src="https://wzrd.in/standalone/buffer"></script>
+    <script src="https://unpkg.com/ipfs-api@9.0.0/dist/index.js" integrity="sha384-5bXRcW9kyxxnSMbOoHzraqa7Z0PQWIao+cgeg327zit1hz5LZCEbIMx/LWKPReuB" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
+    <script src="./app.js"></script>
+    <style>
+        body{
+            font-family: Arial;
+            font-size: 12px;
+        }
+        table{
+            font-family: Arial;
+            font-size: 12px;
+        }
+        th{
+            background-color: #444444;
+            color: #ffffff;
+            font-weight: normal;
+            height: 30px;
+        }
+        .link{
+            color: #0000cc;
+            cursor: pointer;
+        }
+        .link:hover{
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div id="tally"></div>
+    <hr/>
+    <div>
+        <form id="search" class="col-sm-4">
+            <br/>Enter VIN to search car: <input type="text" id="vin" />
+        </form>
+        <!--
+        <form id="add_car" class="col-sm-4">
+            <br/><input type="submit" value="Add Car" />
+        </form>
+        -->
+    </div>
+    <br/><hr/><br/>
+    <div id="message"></div>
+    <br/><hr/><br/>
+    <div id="add_car_panel"></div>
+    <br/>
+    <div id="search_result_panel"></div>
+    <br/>
+    <div id="add_new_report_panel"></div>
+    <br/>
+    <div id="report_details_panel"></div>
+    <br/>
+
+    <div id="token_panel"></div>
+    <br/><br/>
+    <div id="contract_balance"></div>
+    <br/><br/>
+    <div id="clients"></div>
+
+</body>
+</html>

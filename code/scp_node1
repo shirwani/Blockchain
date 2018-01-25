@@ -1,9 +1,0 @@
-#################
-# REMOTE -> LOCAL
-#################
-#scp -r -i "../connection/GethNode.pem" ubuntu@13.58.251.221:/home/ubuntu/dapps/Carfax /Users/zshirwan/Projects/BC/AWS/code/dapps/Carfax
-
-#################
-# LOCAL -> REMOTE
-#################
-scp -r -i "../connection/GethNode.pem" /Users/zshirwan/Projects/BC/AWS/code/dapps/Carfax ubuntu@13.58.251.221:/home/ubuntu/dapps

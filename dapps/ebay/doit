@@ -1,0 +1,6 @@
+truffle migrate --reset
+truffle exec app/javascripts/seed.js
+npm run build
+sudo rm -rf /var/www/html/ebay
+sudo mkdir -p /var/www/html/ebay
+sudo cp -R ~/dapps/ebay/build/* /var/www/html/ebay

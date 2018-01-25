@@ -1,0 +1,43 @@
+###########################################
+# BUILDING AND DEPLOYING ON TESTRPC TESTNET
+###########################################
+testrpc
+
+##################################
+# CREATE NEW PROJECT FROM TEMPLATE
+##################################
+truffle init webpack
+rm -f contracts/MetaCoin.sol contracts/ConvertLib.sol
+
+#############################################
+# INTERACT WITH CONTRACT FROM TRUFFLE CONSOLE
+#############################################
+Voting.deployed().then(function(contractInstance) {contractInstance.voteForCandidate('Rama').then(function(v) {console.log(v)})})
+# Wait a few seconds
+Voting.deployed().then(function(contractInstance) {contractInstance.totalVotesFor.call('Rama').then(function(v) {console.log(v)})})
+
+# chartInstance is the output pf the preceeding function call Voting.deployed()
+Voting.deployed().then(function(contractInstance){contractInstance.voteForCandidate('Jose').then(function(){return contractInstance.totalVotesFor.call('Jose').then(function(v){console.log(v)});});});
+Voting.deployed().then(function(contractInstance){contractInstance.voteForCandidate('Rama').then(function(v){console.log(v)})})
+Voting.deployed().then(function(v){console.log(v.address)})
+
+
+###################
+# TO START/RUN DAPP
+###################
+	# Update ip-address in app.js
+	# Setup new node
+	mkdir -p dapps/ebay
+	cd dapps/ebay
+	testrpc&
+	truffle init webpack
+	rm -f contracts/MetaCoin.sol contracts/ConvertLib.sol
+	# scp files
+	sudo npm install # install packages in package.json
+	truffle migrate --reset
+	# truffle exec app/javascripts/seed.js
+	npm run build
+	sudo rm -rf /var/www/html/ebay
+	sudo mkdir -p /var/www/html/ebay
+	sudo cp -R ~/dapps/ebay/build/* /var/www/html/ebay
+
